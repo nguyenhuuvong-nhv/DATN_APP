@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFEFEF"
+    tools:context=".Fragment.ProfileFragment">
+
+    <LinearLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="22dp"
+            android:src="@drawable/avt" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Nguyễn Hữu Vọng   "
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topPanel"
+        android:layout_marginTop="30dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/borderbot"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="5dp"
+            android:text=" Quản lý hồ sơ"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/borderbot"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="5dp"
+            android:text=" Đóng góp tính năng"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/borderbot"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="5dp"
+            android:text=" Liên hệ hỗ trợ"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/borderbot"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="5dp"
+            android:text=" Đăng xuất"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+
+
+    </LinearLayout>
+</RelativeLayout>
