@@ -10,7 +10,6 @@ public class TaiKhoan {
 
     public TaiKhoan() {
     }
-
     public TaiKhoan(String _id, String username, String matKhau, String loaiTaiKhoan, String trangThai, String hoTen) {
         this._id = _id;
         Username = username;

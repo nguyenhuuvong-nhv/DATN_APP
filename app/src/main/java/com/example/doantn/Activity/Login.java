@@ -96,6 +96,7 @@ public class Login extends AppCompatActivity {
                             doOpenMain();
 
 
+
                         } else {
                             Toast.makeText(getApplicationContext(), "Sai tên đăng nhập hoặc mật khẩu ! ", Toast.LENGTH_LONG).show();
                         }

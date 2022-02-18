@@ -37,7 +37,7 @@ public class Detail extends AppCompatActivity {
     TextView  name, maPB, nguoiQL, trangThai,Serial,NhanHieu,CPU,Ram,BoNho,CongSuat;
     String id_PB = null;
     EditText mota;
-    Button baohong,sudung;
+    Button baohong,sudung,chonPB;
     private App app;
     String Appid = "doantn2021-lztvd";
     ArrayList<String> strings = new ArrayList<>();
@@ -108,69 +108,77 @@ public class Detail extends AppCompatActivity {
 
 
                         name.setText(resultdata.getString("TenTB"));
-                        if (resultdata.getInteger("TrangThai") == 0) {
-                            trangThai.setText("Hoạt động");
-                            sudung.setVisibility(View.GONE);
-                        } else if (resultdata.getInteger("TrangThai") == 1) {
-                            trangThai.setText("Hư hỏng");
-                            mota.setVisibility(View.GONE);
-                            baohong.setVisibility(View.GONE);
-                        } else if (resultdata.getInteger("TrangThai") == 2) {
-                            trangThai.setText("Đang sữa chữa");
-                            mota.setVisibility(View.GONE);
-                            baohong.setVisibility(View.GONE);
-                        } else if (resultdata.getInteger("TrangThai") == 3) {
-                            trangThai.setText("Đang bảo hành");
-                            mota.setVisibility(View.GONE);
-                            baohong.setVisibility(View.GONE);
-                        } else if (resultdata.getInteger("TrangThai") == 4) {
-                            trangThai.setText("Đã thanh lý");
-                            mota.setVisibility(View.GONE);
-                            baohong.setVisibility(View.GONE);
-                            sudung.setVisibility(View.GONE);
-                        }
+                            if (resultdata.getInteger("TrangThai") == 0) {
+                                trangThai.setText("Hoạt động");
+                                sudung.setVisibility(View.GONE);
+
+                            } else if (resultdata.getInteger("TrangThai") == 1) {
+                                trangThai.setText("Hư hỏng");
+                                mota.setVisibility(View.GONE);
+                                baohong.setVisibility(View.GONE);
+                            } else if (resultdata.getInteger("TrangThai") == 2) {
+                                trangThai.setText("Đang sửa chữa");
+                                mota.setVisibility(View.GONE);
+                                baohong.setVisibility(View.GONE);
+                            } else if (resultdata.getInteger("TrangThai") == 3) {
+                                trangThai.setText("Đang bảo hành");
+                                mota.setVisibility(View.GONE);
+                                baohong.setVisibility(View.GONE);
+                            } else if (resultdata.getInteger("TrangThai") == 4) {
+                                trangThai.setText("Đã thanh lý");
+                                mota.setVisibility(View.GONE);
+                                baohong.setVisibility(View.GONE);
+                                sudung.setVisibility(View.GONE);
+                            }
+
 
 
                         //Filter Phòng ban
-                        MongoCollection<Document> PhongBan = mongoDatabase.getCollection("PhongBan");
-                        Document queryFilter1 = new Document().append("_id", resultdata.getString("MaPB"));
-                        PhongBan.findOne(queryFilter1).getAsync(result1 -> {
-                            try {
-                                if (result1.isSuccess()) {
-                                    Document resultdata1 = result1.get();
-                                    maPB.setText(resultdata1.getString("TenPB"));
+                        if(resultdata.getString("MaPB") != null){
+                            MongoCollection<Document> PhongBan = mongoDatabase.getCollection("PhongBan");
+                            Document queryFilter1 = new Document().append("_id", resultdata.getString("MaPB"));
+                            PhongBan.findOne(queryFilter1).getAsync(result1 -> {
+                                try {
+                                    if (result1.isSuccess()) {
+                                        Document resultdata1 = result1.get();
+                                        maPB.setText(resultdata1.getString("TenPB"));
 
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code! ", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code! ", Toast.LENGTH_LONG).show();
+                                        doOpenMain();
+                                    }
+                                } catch (Exception ex) {
+                                    Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code !", Toast.LENGTH_LONG).show();
                                     doOpenMain();
                                 }
-                            } catch (Exception ex) {
-                                Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code !", Toast.LENGTH_LONG).show();
-                                doOpenMain();
-                            }
 
-                        });
+                            });
+                        }
+
+                        if(resultdata.getString("NguoiQuanLy") != null){
+                            MongoCollection<Document> Nql = mongoDatabase.getCollection("TaiKhoan");
+                            Document queryFilter2 = new Document().append("_id", resultdata.getString("NguoiQuanLy"));
+                            Nql.findOne(queryFilter2).getAsync(result2 -> {
+                                try {
+                                    if (result2.isSuccess()) {
+                                        Document resultdata2 = result2.get();
+                                        nguoiQL.setText(resultdata2.getString("HoTen"));
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code! ", Toast.LENGTH_LONG).show();
+                                        doOpenMain();
+                                    }
+                                } catch (Exception ex) {
+                                    Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code !", Toast.LENGTH_LONG).show();
+                                    doOpenMain();
+                                }
+
+                            });
+                        }
 
                         //Filter Người quản lý
 
-                        MongoCollection<Document> Nql = mongoDatabase.getCollection("TaiKhoan");
-                        Document queryFilter2 = new Document().append("_id", resultdata.getString("NguoiQuanLy"));
-                        Nql.findOne(queryFilter2).getAsync(result2 -> {
-                            try {
-                                if (result2.isSuccess()) {
-                                    Document resultdata2 = result2.get();
-                                    nguoiQL.setText(resultdata2.getString("HoTen"));
 
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code! ", Toast.LENGTH_LONG).show();
-                                    doOpenMain();
-                                }
-                            } catch (Exception ex) {
-                                Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code !", Toast.LENGTH_LONG).show();
-                                doOpenMain();
-                            }
-
-                        });
 
                     } else {
                         Toast.makeText(getApplicationContext(), "Không tìm thấy mã QR-code ! ", Toast.LENGTH_LONG).show();
@@ -235,7 +243,7 @@ public class Detail extends AppCompatActivity {
                     User user = app.currentUser();
                     MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
                     MongoDatabase mongoDatabase = mongoClient.getDatabase("DoAnTN");
-
+                    final int trangthai;
                     MongoCollection<Document> collection_TB = mongoDatabase.getCollection("ThietBi");
                     Document queryFilter = new Document().append("_id", intent.getStringExtra("id"));
                     RealmResultTask<MongoCursor<Document>> findTask = collection_TB.find(queryFilter).iterator();
@@ -260,33 +268,75 @@ public class Detail extends AppCompatActivity {
                             }
                         }
                     });
+                    collection_TB.findOne(queryFilter).getAsync(result2 -> {
+                        try {
+                            if (result2.isSuccess()) {
+                                Document resultdata2 = result2.get();
+                                if(resultdata2.getInteger("TrangThai")== 2){
+                                    MongoCollection<Document> collection_TBHH = mongoDatabase.getCollection("ThietBiHuHong");
+                                    Document queryFilter1 = new Document().append("MaTB", intent.getStringExtra("id"));
+                                    RealmResultTask<MongoCursor<Document>> findTask1 = collection_TBHH.find(queryFilter1).iterator();
 
-                    MongoCollection<Document> collection_TBHH = mongoDatabase.getCollection("ThietBiHuHong");
-                    Document queryFilter1 = new Document().append("MaTB", intent.getStringExtra("id"));
-                    RealmResultTask<MongoCursor<Document>> findTask1 = collection_TBHH.find(queryFilter1).iterator();
+                                    findTask1.getAsync(task -> {
+                                        if (task.isSuccess()) {
+                                            MongoCursor<Document> results = task.get();
 
-                    findTask1.getAsync(task -> {
-                        if (task.isSuccess()) {
-                            MongoCursor<Document> results = task.get();
+                                            if (results.hasNext()) {
+                                                Document result = results.next();
 
-                            if (results.hasNext()) {
-                                Document result = results.next();
+                                                result.append("TrangThai", 4);
+                                                collection_TBHH.updateOne(queryFilter1, result).getAsync(result1 -> {
+                                                    if (result1.isSuccess()) {
+                                                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thành công", Toast.LENGTH_LONG).show();
+                                                        doOpenMain();
 
-                                result.append("TrangThai", 4);
-                                collection_TBHH.updateOne(queryFilter1, result).getAsync(result1 -> {
-                                    if (result1.isSuccess()) {
-                                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thành công", Toast.LENGTH_LONG).show();
-                                        doOpenMain();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thất bại", Toast.LENGTH_LONG).show();
+                                                        doOpenMain();
+                                                    }
 
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thất bại", Toast.LENGTH_LONG).show();
-                                        doOpenMain();
-                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }else if(resultdata2.getInteger("TrangThai")== 3){
+                                    MongoCollection<Document> collection_TBHH = mongoDatabase.getCollection("BaoHanhThietBi");
+                                    Document queryFilter1 = new Document().append("MaTB", intent.getStringExtra("id"));
+                                    RealmResultTask<MongoCursor<Document>> findTask1 = collection_TBHH.find(queryFilter1).iterator();
 
-                                });
+                                    findTask1.getAsync(task -> {
+                                        if (task.isSuccess()) {
+                                            MongoCursor<Document> results = task.get();
+
+                                            if (results.hasNext()) {
+                                                Document result = results.next();
+
+                                                result.append("TrangThai", 1);
+                                                collection_TBHH.updateOne(queryFilter1, result).getAsync(result1 -> {
+                                                    if (result1.isSuccess()) {
+                                                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thành công", Toast.LENGTH_LONG).show();
+                                                        doOpenMain();
+
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thất bại", Toast.LENGTH_LONG).show();
+                                                        doOpenMain();
+                                                    }
+
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            } else {
+                                doOpenMain();
                             }
+                        } catch (Exception ex) {
+                            doOpenMain();
                         }
+
                     });
+
+
                 }
             });
 
